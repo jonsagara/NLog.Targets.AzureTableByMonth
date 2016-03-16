@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NLog.Targets.AzureTableByMonth")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Use NLog to write to an Azure Table partitioned by year and month.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Jon Sagara")]
 [assembly: AssemblyProduct("NLog.Targets.AzureTableByMonth")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
