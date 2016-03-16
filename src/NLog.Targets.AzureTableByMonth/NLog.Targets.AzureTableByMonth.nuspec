@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/jonsagara/NLog.Targets.AzureTableByMonth/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/jonsagara/NLog.Targets.AzureTableByMonth</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>NLog AzureTable</tags>
+  </metadata>
+  <files>
+        <file src="bin\Release\net45\NLog.Targets.AzureTableByMonth.dll" target="lib\net45\NLog.Targets.AzureTableByMonth.dll" />
+        <file src="bin\Release\net45\NLog.Targets.AzureTableByMonth.pdb" target="lib\net45\NLog.Targets.AzureTableByMonth.pdb" />
+        <file src="bin\Release\net46\NLog.Targets.AzureTableByMonth.dll" target="lib\net46\NLog.Targets.AzureTableByMonth.dll" />
+        <file src="bin\Release\net46\NLog.Targets.AzureTableByMonth.pdb" target="lib\net46\NLog.Targets.AzureTableByMonth.pdb" />
+    </files>
+</package>
