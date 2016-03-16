@@ -103,7 +103,11 @@ namespace NLog.Targets.AzureTableByMonth
             // Subtract current ticks from MaxValue.Ticks so that newest log entries show up first
             //  (remember that PartitionKey/RowKey are the clustered index, sorted ascending).
             // Then, to ensure uniqueness, append three meaningless random digits.
-            return $"{MaxDateTimeTicks - utcNow.Ticks}{Random.Next(0, 1000).ToString("000")}";
+            // Need to support .NET 4.5
+            //return $"{MaxDateTimeTicks - utcNow.Ticks}{Random.Next(0, 1000).ToString("000")}";
+            var ticks = MaxDateTimeTicks - utcNow.Ticks;
+            var randomSuffix = Random.Next(0, 1000);
+            return string.Format("{0}{1}", ticks, randomSuffix.ToString("000"));
         }
     }
 }
