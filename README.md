@@ -15,19 +15,18 @@ My version has diverged in the following ways:
 <!-- For more information on using transformations 
      see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. -->
 <nlog
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform"
   xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   autoReload="true"
   throwExceptions="false"
   internalLogLevel="Off"
   internalLogFile="d:\home\site\wwwroot\app_data\Logs\nlog-internal.log">
 
-  <extensions xdt:Transform="Insert">
+  <extensions>
     <add assembly="NLog.Targets.AzureTableByMonth"/>
   </extensions>
 
-  <targets async="true" xdt:Transform="Replace">
+  <targets async="true">
     <target name="AzureTableStorage" xsi:type="AzureTable" connectionStringName="AzureLogs" tableName="MyApplicationLogs">
       <property name="LogLevel" value="${level}" />
       <property name="MachineName" value="${machinename}" />
@@ -38,7 +37,7 @@ My version has diverged in the following ways:
     </target>
   </targets>
 
-  <rules xdt:Transform="Replace">
+  <rules>
     <logger name="*" minlevel="Trace" writeTo="AzureTableStorage" />
   </rules>
 </nlog>
