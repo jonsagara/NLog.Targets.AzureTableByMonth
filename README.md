@@ -8,3 +8,38 @@ My version has diverged in the following ways:
 
 - The `RowKey` is `(DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString()` + three random digits. In Azure Table, this has the effect of making the newest entries for a month show up at the top of the grid in Cloud Explorer. It also makes querying for each month's latest alerts very efficient. Lastly, the encoding is minimal, so the `RowKey`'s value is easy to work with if needed.
 
+## Sample NLog.config:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- For more information on using transformations 
+     see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. -->
+<nlog
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform"
+  xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+  autoReload="true"
+  throwExceptions="false"
+  internalLogLevel="Off"
+  internalLogFile="d:\home\site\wwwroot\app_data\Logs\nlog-internal.log">
+
+  <extensions xdt:Transform="Insert">
+    <add assembly="NLog.Targets.AzureTableByMonth"/>
+  </extensions>
+
+  <targets async="true" xdt:Transform="Replace">
+    <target name="AzureTableStorage" xsi:type="AzureTable" connectionStringName="AzureLogs" tableName="MyApplicationLogs">
+      <property name="LogLevel" value="${level}" />
+      <property name="MachineName" value="${machinename}" />
+      <property name="Message" value="${message}" />
+      <property name="LoggerName" value="${logger}" />
+      <property name="ExceptionMessage" value="${exception:format=ToString}" />
+      <property name="ExceptionType" value="${exception:format=Type}" />
+    </target>
+  </targets>
+
+  <rules xdt:Transform="Replace">
+    <logger name="*" minlevel="Trace" writeTo="AzureTableStorage" />
+  </rules>
+</nlog>
+```
