@@ -8,6 +8,13 @@ My version has diverged in the following ways:
 
 - The `RowKey` is `(DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString()` + three random digits. In Azure Table, this has the effect of making the newest entries for a month show up at the top of the grid in Cloud Explorer. It also makes querying for each month's latest alerts very efficient. Lastly, the encoding is minimal, so the `RowKey`'s value is easy to work with if needed.
 
+## Installation
+
+You can add `NLog.Targets.AzureTableByMonth` via NuGet:
+
+[https://www.nuget.org/packages/NLog.Targets.AzureTableByMonth/](https://www.nuget.org/packages/NLog.Targets.AzureTableByMonth/)
+
+
 ## Sample NLog.config:
 
 ```xml
