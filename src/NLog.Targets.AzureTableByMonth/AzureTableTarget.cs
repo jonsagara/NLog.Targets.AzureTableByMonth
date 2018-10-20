@@ -11,13 +11,7 @@ namespace NLog.Targets.AzureTableByMonth
     {
         [ThreadStatic]
         private static Random _random;
-        private static Random Random
-        {
-            get
-            {
-                return _random ?? (_random = new Random(Guid.NewGuid().GetHashCode()));
-            }
-        }
+        private static Random Random => _random ?? (_random = new Random(Guid.NewGuid().GetHashCode()));
 
         private static readonly long MaxDateTimeTicks = DateTime.MaxValue.Ticks;
 
@@ -32,13 +26,7 @@ namespace NLog.Targets.AzureTableByMonth
         private readonly List<AzureLogTableProperty> _properties = new List<AzureLogTableProperty>();
 
         [ArrayParameter(typeof(AzureLogTableProperty), "property")]
-        public IList<AzureLogTableProperty> Properties
-        {
-            get
-            {
-                return _properties;
-            }
-        }
+        public IList<AzureLogTableProperty> Properties => _properties;
 
         private AzureLogTableStorageClient _client;
 
@@ -58,6 +46,7 @@ namespace NLog.Targets.AzureTableByMonth
             _client.Insert(azureLogEntity);
         }
 
+        [Obsolete("Use override Write(IList<AsyncLogEventInfo> logEvents instead. Marked obsolete on NLog 4.5")]
         protected override void Write(AsyncLogEventInfo[] logEventInfos)
         {
             try
@@ -74,6 +63,28 @@ namespace NLog.Targets.AzureTableByMonth
             catch (Exception ex)
             {
                 foreach (var logEventInfo in logEventInfos)
+                {
+                    logEventInfo.Continuation(ex);
+                }
+            }
+        }
+
+        protected override void Write(IList<AsyncLogEventInfo> logEvents)
+        {
+            try
+            {
+                var entities = logEvents.Select(lei => CreateAzureLogEntity(lei.LogEvent));
+
+                _client.BulkInsert(entities);
+
+                foreach (var logEventInfo in logEvents)
+                {
+                    logEventInfo.Continuation(null);
+                }
+            }
+            catch (Exception ex)
+            {
+                foreach (var logEventInfo in logEvents)
                 {
                     logEventInfo.Continuation(ex);
                 }
